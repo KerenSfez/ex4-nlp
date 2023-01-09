@@ -13,7 +13,7 @@ class _Counter(Counter):
         if type(other) is _Counter:
             return _Counter({k: self[k] * other[k] for k in self.keys() & other.keys()})
         elif type(other) is float or type(other) is int:
-            return _Counter({k:self[k]*other for k in self.keys()})
+            return _Counter({k: self[k]*other for k in self.keys()})
 
     def __rmul__(self, other):
         return self.__mul__(other)
@@ -147,7 +147,7 @@ class MSTParser:
 
         self.weights = self.weights * (1/(n_iter * len(X)))
 
-    def fit(self, X, lr=1,n_iter=2):
+    def fit(self, X, lr=1, n_iter=2):
         """
         fit the model to the given trainning set using perceptron algorithm
         :param X: list of nltk DependencyGraph
@@ -182,7 +182,6 @@ class MSTParser:
                 if arc_pred == gt_arc:
                     correct_edges += 1
         return correct_edges/len(gt)
-
 
     def score(self, X):
         """

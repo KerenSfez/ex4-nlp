@@ -19,10 +19,10 @@ class Perceptron:
         counter = 0
         np.random.shuffle(self.training_set)
         for nodes in training_set:
-            print('Tree :',counter)
+            print('Tree :', counter)
             self.weight += self.calculate_weight(nodes)
             self.averaged_weight += self.weight
-            counter+=1
+            counter += 1
 
     def MST_vec(self,tree,arcs):
         vec=np.zeros(self.length)
@@ -51,7 +51,7 @@ class Perceptron:
 
     def calculate_weight(self, tree):
         result_arc = Chu_Liu_Edmonds_algorithm.min_spanning_arborescence_nx(self.treeArcs(tree), 0)
-        final_res = self.tree_vec(tree) - self.MST_vec(tree,result_arc)
+        final_res = self.tree_vec(tree) - self.MST_vec(tree, result_arc)
         return final_res * self.learning_rate
 
     def calculate_arc_weight_sum(self, node1, node2):
@@ -84,7 +84,7 @@ class Perceptron:
         return arcs
 
     def result(self):
-        self.weight=self.averaged_weight / (len(self.training_set) * self.num_iteration)
+        self.weight = self.averaged_weight / (len(self.training_set) * self.num_iteration)
         return self.weight
 
 
@@ -149,11 +149,12 @@ def find_equivalences(arc_set,tree):
         equivalence += sum(1 for index in node["deps"][""] if (node["address"], index) in arc_set)
     return equivalence
 
+
 if __name__ == '__main__':
     training_set, test_set = load_parsed_sentences()
     dict_words, dict_words_index, dict_tags, dict_tags_index = get_dict_word_and_tag(training_set)
     len_for_perceptron = len(dict_tags.keys()) ** 2 + len(dict_words.keys()) ** 2
-    perceptron_result,perceptron = perceptron_algorithm(training_set, dict_words_index, dict_tags_index, 2, 1,
+    perceptron_result, perceptron = perceptron_algorithm(training_set, dict_words_index, dict_tags_index, 2, 1,
                                                         len_for_perceptron)
     accuracy = compute_on_test(test_set,perceptron)
     print(accuracy)
