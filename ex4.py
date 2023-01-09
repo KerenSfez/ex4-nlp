@@ -16,9 +16,9 @@ class Item:
 
 
 class Arc:
-    def __init__(self, start_node, end_node, weight):
-        self.start_node = start_node
-        self.end_node = end_node
+    def __init__(self, head, tail, weight):
+        self.head = head
+        self.tail = tail
         self.weight = weight
 
     def get_word(self, node):
@@ -76,11 +76,11 @@ def get_score(node1, node2, words_dict, tags_dict, weights):
 
 def get_arcs(tree, words_dict, tags_dict, weights):
     arcs = []
-    for end_node in tree.nodes.values():
-        if end_node["word"] in words_dict:
-            for start_node in tree.nodes.values():
-                if start_node["word"] in words_dict and start_node["tag"] != TOP_TAG and not are_same_node(start_node, end_node):
-                    arcs.append(Arc(start_node["address"], end_node["address"], get_score(start_node, end_node, words_dict, tags_dict, weights)))
+    for tail in tree.nodes.values():
+        if tail["word"] in words_dict:
+            for head in tree.nodes.values():
+                if head["word"] in words_dict and head["tag"] != TOP_TAG and not are_same_node(head, tail):
+                    arcs.append(Arc(head["address"], tail["address"], get_score(head, tail, words_dict, tags_dict, weights)))
     return arcs
 
 
@@ -100,7 +100,7 @@ def get_MST_vector(tree, arcs_MST, words_dict, tags_dict, vector_len):
     MST_vector = np.zeros(vector_len)
 
     for arc in arcs_MST.values():
-        word_index, tag_index = get_weight_features(tree.nodes[arc.start_node], tree.nodes[arc.end_node], words_dict, tags_dict)
+        word_index, tag_index = get_weight_features(tree.nodes[arc.head], tree.nodes[arc.tail], words_dict, tags_dict)
         if word_index and tag_index:
             MST_vector[word_index] += 1
             MST_vector[tag_index] += 1
