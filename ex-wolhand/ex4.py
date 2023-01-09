@@ -139,7 +139,7 @@ def compute_on_test(test_set, perceptron):
     for tree in test_set:
         arcs = set()
         for arc in Chu_Liu_Edmonds_algorithm.min_spanning_arborescence_nx(perceptron.treeArcs(tree),0).values():
-            arcs.add((arc.head,arc.tail))
+            arcs.add((arc.head, arc.tail))
         result += find_equivalences(arcs,tree) / (len(tree.nodes)-1)
     return result / len(test_set)
 
@@ -156,5 +156,5 @@ if __name__ == '__main__':
     len_for_perceptron = len(dict_tags.keys()) ** 2 + len(dict_words.keys()) ** 2
     perceptron_result, perceptron = perceptron_algorithm(training_set, dict_words_index, dict_tags_index, 2, 1,
                                                         len_for_perceptron)
-    accuracy = compute_on_test(test_set,perceptron)
+    accuracy = compute_on_test(test_set, perceptron)
     print(accuracy)
