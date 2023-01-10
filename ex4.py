@@ -139,9 +139,11 @@ def perceptron(training_set, words_dict, tags_dict, num_iteration=2, learning_ra
     return weights / (training_set_len * num_iteration)
 
 
-def get_dependency_tree(test_set, words_dict, tags_dict, perceptron_result):
-    return [min_spanning_arborescence_nx(get_arcs(tree, words_dict, tags_dict, perceptron_result), 0).values() for tree in test_set]
-
+def get_dependency_tree(tree, words_dict, tags_dict, perceptron_result):
+    arc_set = set()
+    for arc in min_spanning_arborescence_nx(get_arcs(tree, words_dict, tags_dict, perceptron_result), 0).values():
+        arc_set.add((arc.head, arc.tail))
+    return arc_set
 
 def get_likeliness(arcs, tree):
     num_commons = 0
@@ -158,7 +160,7 @@ def get_likeliness(arcs, tree):
 def get_number_shared_edges_bw(test_set, words_dict, tags_dict, perceptron_result):
     number_shared_edges = 0
     for tree in test_set:
-        arcs = get_dependency_tree(test_set, words_dict, tags_dict, perceptron_result)
+        arcs = get_dependency_tree(tree, words_dict, tags_dict, perceptron_result)
         number_shared_edges += (get_likeliness(arcs, tree) / (len(tree.nodes) - 1))
         print("Tree: ", tree)
         print("Arcs:",  arcs)
