@@ -146,10 +146,12 @@ def get_dependency_tree(test_set, words_dict, tags_dict, perceptron_result):
 def get_likeliness(arcs, tree):
     num_commons = 0
     for node in tree.nodes.values():
-        for child in node['deps']['']:
-            parent = node['address']
+        for child in node["deps"][""]:
+            parent = node["address"]
+            print("(parent, child): ", (parent, child))
             if (parent, child) in arcs:
                 num_commons += 1
+    print("Likeliness arcs - tree: ", num_commons)
     return num_commons
 
 
@@ -158,11 +160,16 @@ def get_number_shared_edges_bw(test_set, words_dict, tags_dict, perceptron_resul
     for tree in test_set:
         arcs = get_dependency_tree(test_set, words_dict, tags_dict, perceptron_result)
         number_shared_edges += (get_likeliness(arcs, tree) / (len(tree.nodes) - 1))
+        print("Tree: ", tree)
+        print("Arcs:",  arcs)
+        print("number_shared_edges: ", number_shared_edges)
+        print()
     return number_shared_edges
 
 
 def evaluate(test_set, words_dict, tags_dict, perceptron_result):
     number_shared_edges = get_number_shared_edges_bw(test_set, words_dict, tags_dict, perceptron_result)
+    print("number_shared_edges ", number_shared_edges)
     return number_shared_edges / len(test_set)
 
 
@@ -173,5 +180,7 @@ if __name__ == '__main__':
     words_dict, tags_dict = init_words_and_tags(training_set)
 
     perceptron_result = perceptron(training_set, words_dict, tags_dict, 2, 1)
+    print("perceptron_result: ", perceptron_result)
+    print("----------------------------------------")
     score = evaluate(test_set, words_dict, tags_dict, perceptron_result)
     print('SCORE: ', score)

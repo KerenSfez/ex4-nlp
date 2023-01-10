@@ -130,8 +130,8 @@ def perceptron_algorithm(training_set, dict_words_index, dict_tags_index, num_it
     perceptron = Perceptron(length, dict_words_index, dict_tags_index, training_set, learning_rate, num_iterations)
     for index in range(num_iterations):
         perceptron.iteration()
-        print("Iteration : ",index)
-    return perceptron.result(),perceptron
+        print("Iteration : ", index)
+    return perceptron.result(), perceptron
 
 
 def compute_on_test(test_set, perceptron):
